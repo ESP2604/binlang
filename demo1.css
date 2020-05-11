@@ -1,0 +1,49 @@
+.clear {
+    clear: both;
+}
+.clear::after,
+.clear::before{
+    contain: " ";
+    content: " ";
+    display: block;
+}
+
+
+.top_layout{
+    visibility: hidden;
+    position: fixed;
+    bottom: 0;
+    top: 0;
+    right: 0;
+    left: 0;
+}
+
+.top_layout .upload_statu {
+    visibility: visible;
+    /* visibility: hidden; */
+    background-color: #EEF;
+    overflow: auto;
+    width: 30%;
+    height: 30%;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+}
+
+.top_layout .upload_statu::-webkit-scrollbar{
+    display: none;
+}
+.upload_statu_title {
+    position: fixed;
+    width: 100%;
+    background-color:#88F;
+}
+
+.upload_task{
+    text-overflow: ellipsis;
+}
+
+.dropfile{
+    height: 500px;
+}
+

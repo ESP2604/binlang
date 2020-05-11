@@ -1,0 +1,92 @@
+body {
+    /* background: #333; */
+}
+.page {
+    margin: 0 auto;
+    /* border:solid 1px #FFF; */
+
+    width: 100%;
+    max-width: 1200px;
+}
+header {
+    height: 130px;
+    position: relative;
+    margin-bottom: 30px;
+}
+img.logo{
+    position: absolute;
+    width: 100px;
+    padding: 2px 10px  0 2px;
+}
+div.searchBox{
+    /* display: inline-block; */
+    margin: 0 0 0 120px;
+}
+div.searchBox input[type="search"]{
+    background: url("/favicon.ico") 0px 0px no-repeat;
+    border-bottom:solid #000 1px;
+    padding: 20px 0 0 38px;
+}
+div.searchBox input[type="submit"] {
+    cursor: pointer;
+    height: 25px;
+}
+div.searchBox input[type="submit"]:active{
+    background-color: #88F;
+}
+nav {
+    height: 30px;
+    width: 100%;
+    position: absolute;
+    background-color: #88F;
+    bottom: 0px;
+}
+.topscreen {
+    /* height: 100%; */
+    /* width: 100%; */
+    position: fixed;
+    visibility: hidden;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    
+}
+.upload {
+    width: 300px;
+    height: 150px;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+}
+.uploadstatu {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(180, 180, 180, 255) ;
+}
+
+table.page{
+    border-spacing: 1px;
+    border-collapse:collapse;
+}
+table.page td , table.page th{
+    border: solid 1px #FFF;
+}
+table.page th{
+    background: #AAF;
+}
+table.page tr:hover, 
+table.page tr[class]:hover{
+    background-color: #AAA;
+}
+table.page tr {
+    background-color: #DDF;
+}
+table.page tr.alt {
+    background-color: #EEF;
+}
+table.page tbody tr td ~td{
+    text-align: center;    
+}

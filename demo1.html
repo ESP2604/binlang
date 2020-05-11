@@ -1,0 +1,36 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="demo1.css">
+</head>
+<body>
+<div class="top_layout">
+    <div class="upload_statu">
+    <div class="upload_statu_title clear">上傳狀態</div>
+    <div>大聲暫未符</div>
+    </div>
+</div>
+<form action="http://127.0.0.1:8080/Ajax/BinlangUpFile" enctype="multipart/form-data" method="post">
+    <input type="file" name="files" id="file" value="大聲提交" multiple="multiple">
+    <progress id="progress" value="32" max="100"> 32% </progress>
+    <input type="button" id="uploadButton" >
+</form>
+
+<div id="debug" 
+    style="height: 300px; overflow: auto;"
+>
+</div>
+
+<div class="dropfile">
+</div>
+
+
+<script src="demo1.js"></script>
+<script src="demo2.js"></script>
+<script src="ajaxdemo.js"></script>
+</body>
+</html>
