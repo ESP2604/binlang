@@ -1,6 +1,3 @@
-body {
-    /* background: #333; */
-}
 .page {
     margin: 0 auto;
     /* border:solid 1px #FFF; */
@@ -41,30 +38,31 @@ nav {
     background-color: #88F;
     bottom: 0px;
 }
-.topscreen {
-    /* height: 100%; */
-    /* width: 100%; */
-    position: fixed;
+.top_layout{
     visibility: hidden;
-    top: 0;
+    position: fixed;
     bottom: 0;
+    top: 0;
     right: 0;
     left: 0;
-    
 }
-.upload {
-    width: 300px;
-    height: 150px;
+
+.top_layout .upload_statu {
+    visibility: visible;
+    /* visibility: hidden; */
+    background-color: #EEF;
+    overflow: auto;
+    width: 30%;
+    height: 30%;
     position: absolute;
     bottom: 0;
     right: 0;
 }
-.uploadstatu {
+
+.top_layout .upload_statu .title {
     position: fixed;
-    top: 0;
     width: 100%;
-    height: 100%;
-    background-color: rgba(180, 180, 180, 255) ;
+    background-color:#88F;
 }
 
 table.page{
