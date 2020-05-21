@@ -21,14 +21,17 @@ function fileUploadProcess(entry, ajax) {
  * @param {DirectoryEntry} dir 
  */
 function scanFiles(dir) {
-    if(dir.isFile)
-        return;
 
     let directoryReader = dir.createReader();
-    directoryReader.readEntries(
+    let read = directoryReader.readEntries.bind(directoryReader,
         function(entries) {
+            if(entries.length == 0) 
+                return;
+                // entries.length = entries.length最大只有100
+                //超過100要在遍壢一次 直到為0為止
             for(let i = 0; i < entries.length; i++) {
                 let entry = entries[i];
+                
                 // jsons.push(JSON.stringify({"fullPath":entry.fullPath,
                 // "isDirectory":entry.isDirectory,
                 // "isFile":entry.isFile,
@@ -43,7 +46,9 @@ function scanFiles(dir) {
                     scanFiles(entry);
                 }
             }
+        read();
     });
+    read();
 }
 /**
  * 檔案和目錄判斷
@@ -53,10 +58,11 @@ function fileForEach(files) {
    if(files) 
         for(let i = 0; i < files.length; i++) {
             var tmp = files[i].webkitGetAsEntry();
-
-            if(tmp.isDirectory) 
+            if(tmp.isDirectory) {
                 scanFiles(tmp);
-            else{
+
+            }else{
+                console.log(tmp);
                 fileEntryToFile(tmp); 
             }
         }
@@ -79,6 +85,9 @@ upload.addEventListener("drop",  dropfun);
 upload.addEventListener("dragover",function dragover(event) {
     event.preventDefault();
 });
+
+
+
 function initAjax(ajax, file) {
         let div = fileUploadProcess(file, ajax);
 
@@ -103,6 +112,7 @@ function initAjax(ajax, file) {
         function test(event) {
             console.log(event)
         }
+        //ajax的行程
         function progress(event) {
             let loaded = event.loaded;
             let total  = event.total;
@@ -114,7 +124,7 @@ function initAjax(ajax, file) {
             process.setAttribute("value", p);
             
         }
-        ajax.onreadystatechange = function(event) {
+        ajax.onreadystatechange = function() {
             switch(ajax.readyState){
                 case 0:
                     console.log("客戶端已被建立，但 open() 方法尚未被呼叫。");
@@ -133,27 +143,66 @@ function initAjax(ajax, file) {
                     break;
 
             }
-                console.log(ajax.readyState );
         }
 }
 
-function uploadNext(file, fileEntry) {
+function uploadNext(file, fileEntry, mark, partlen, parts) {
+    let xhr = new XMLHttpRequest();
+    let fd = new FormData();
+    //最後一段
+    if(mark == parts -1)
+        fd.append("files", file.slice(mark * partlen), fileEntry.fullPath + "-" + mark);
+    else
+        fd.append("files", file.slice(mark*partlen, mark*partlen + partlen) , fileEntry.fullPath +"-"+mark);
+    readyUpload(xhr,file,fileEntry,parts, partlen);
+    xhr.open("POST", "http://127.0.0.1:8443/Ajax/BinlangUpFile", true);
+    xhr.send(fd);
+}
+function helloFile(file, fileEntry) {
+    let xhr = new XMLHttpRequest();
+    let fd = new FormData();
+    let partlen = 1024 * 4 * 1024;
+    let parts = parseInt( file.size/partlen);
+    parts = file.size % partlen > 0 ? parts+1: parts;
+
+    let oMyBlob = new Blob([parts], {type : 'hello/file'});
+    // let oMyBlob = new Blob([parts,",", partlen], {type : 'hello/file'});
+
+    fd.append("files",oMyBlob,   fileEntry.fullPath);
+    readyUpload(xhr,file,fileEntry,parts, partlen);
+
+    xhr.open("POST", "http://127.0.0.1:8080/Ajax/BinlangUpFile", true);
+    // xhr.open("POST", "http://127.0.0.1:8443/Ajax/BinlangUpFileV2", true);
+    xhr.send(fd);
+}
+
+/**
+ * 檔案準備好會在這 
+ * @param {*} fileEntry 
+ */
+function fileEntryToFile(fileEntry) {
+    fileEntry.file(success, fail);
+
+    // helloFile(file,fileEntry);
+    function success(file) {
+        helloFile(file,fileEntry);
+    }
+
+    function fail(error) {
+        alert("Unable to retrieve file properties: " + error.code);
+    }
+}
+
+/**
+ * 非中斷續傳
+ * @param {} file 
+ * @param {*} fileEntry 
+ */
+function uploadNextV2(file, fileEntry) {
     let xhr = new XMLHttpRequest();
     let fd = new FormData();
     xhr.open("POST", "http://127.0.0.1:8080/Ajax/BinlangUpFile", true);
     fd.append("files", file, fileEntry.fullPath);
     initAjax(xhr, fileEntry);
     xhr.send(fd);
-}
-
-function fileEntryToFile(fileEntry) {
-    fileEntry.file(success, fail);
-
-    function success(file) {
-        uploadNext(file, fileEntry);
-    }
-
-    function fail(error) {
-        alert("Unable to retrieve file properties: " + error.code);
-    }
 }

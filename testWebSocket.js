@@ -6,26 +6,17 @@ function seandv4(file ) {
 
     ws.onopen = function (e) {
         console.log(e)
-    setInterval(function () {
-        if(endSize < filesize && ws.bufferedAmount == 0) {
+        while(endSize < filesize ) {
             startSize = endSize;
             endSize += paragraph;
             ws.send(file.slice(startSize, endSize));
-        }else {
+        }
             startSize = endSize;
             endSize = filesize;
             ws.send(file.slice(startSize, endSize));
-                setInterval(function () {
-                    if( ws.bufferedAmount == 0) {
-                        ws.close();
-                        delete ws;
-                    }
-                }, 1000);
-        }
 
                 console.log(startSize +"~" + endSize);
                 console.log("bufferedAmount" + ws.bufferedAmount);
-    },300);
     }
 
     ws.onerror = function (e) {

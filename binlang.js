@@ -11,17 +11,17 @@ for(let i = 0; tmp ;tmp = tmp.nextSibling.nextSibling, i++) {
 
 var dropfun = function(event) {
     event.preventDefault();
-    console.log(event.type);
+    // console.log(event.type);
     // console.log(event.dataTransferItemList.length);
     if(event.dataTransfer.items) {
     myEvent = event;
         var files = event.dataTransfer.items;
         for(let i = 0; i < files.length; i++) {
-        console.log(files[i].webkitGetAsEntry());
+        // console.log(files[i].webkitGetAsEntry());
         }        
     }
     if(event.dataTransfer.files) {
-        console.log(files[0].length);
+        // console.log(files[0].length);
     }
     // event.stopPropagation();
 }
